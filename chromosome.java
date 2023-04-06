@@ -1,11 +1,12 @@
 
-class chromosome{
+class Chromosome{
 public int[] chrom;
 
-public chromosome(int size){
-    chrom = new int[size];
-    
+public Chromosome(int[] inChrom){
+    chrom = inChrom;
 }
 
-
+public int returnAllele(int index){
+    return chrom[index];
+}
 }
