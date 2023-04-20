@@ -10,7 +10,7 @@ private int[] listArray;
 private int listSize;
 private ArrayList<Chromosome> chromosomes = new ArrayList<>();
 private int kValue;
-public int populationSize = 50;
+public int populationSize = 100;
 Random rand = new Random();
 public Population(String list, int k){
     String[] stringArray = list.split(",");
@@ -78,7 +78,7 @@ public ArrayList<Chromosome> rank(){
         rankPerList[i] = ( (populationSize-i) / summedRank);
         sum+=rankPerList[i];
     }
-    System.out.println("Sum: " + sum);
+    // System.out.println("Sum: " + sum);
 
     for(int j=0; j<populationSize; j++){
         double randomNum = rand.nextDouble(1);
@@ -100,6 +100,7 @@ public ArrayList<Chromosome> rank(){
         System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
         System.out.println();
     }
+    System.out.println();
     return list;
 }
 
@@ -132,29 +133,29 @@ public ArrayList<Chromosome> tournament(){
 }
 
 
-public void printRank(){
-    ArrayList<Chromosome> roulette = rank();
-    System.out.println("************************************************************");
-    for (Chromosome c : roulette){
-        for(int i=0; i<listSize; i++){
-            System.out.print(c.getAllele(i));
-        }
-        System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
-        System.out.println();
-    }
-}
+// public void printRank(){
+//     ArrayList<Chromosome> roulette = rank();
+//     System.out.println("************************************************************");
+//     for (Chromosome c : roulette){
+//         for(int i=0; i<listSize; i++){
+//             System.out.print(c.getAllele(i));
+//         }
+//         System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
+//         System.out.println();
+//     }
+// }
 
-public void printTournament(){
-    ArrayList<Chromosome> tournament = tournament();
-    System.out.println("************************************************************");
-    for (Chromosome c : tournament){
-        for(int i=0; i<listSize; i++){
-            System.out.print(c.getAllele(i));
-        }
-        System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
-        System.out.println();
-    }
-}
+// public void printTournament(){
+//     ArrayList<Chromosome> tournament = tournament();
+//     System.out.println("************************************************************");
+//     for (Chromosome c : tournament){
+//         for(int i=0; i<listSize; i++){
+//             System.out.print(c.getAllele(i));
+//         }
+//         System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
+//         System.out.println();
+//     }
+// }
 
 
 
@@ -179,10 +180,6 @@ public void uniformCrossover(ArrayList<Chromosome> selectedChrom){
         for(int j=0; j<listSize; j++){
             uniformString[j] = (1 + (int)(Math.random() * 100)) % 2;
         }
-        // for(int x : uniformString){
-        //     System.out.print(x);
-        // }
-        // System.out.println();
         Chromosome c1 = selectedChrom.get(i);
         Chromosome c2 = selectedChrom.get(i+1);
         int[] child1Array = new int[listSize];
@@ -213,20 +210,54 @@ public void uniformCrossover(ArrayList<Chromosome> selectedChrom){
         chrom.add(new Chromosome(child1Array, subSum(child1Array), kValue));
         chrom.add(new Chromosome(child2Array, subSum(child2Array), kValue));
     }
-    // System.out.println("Uniform Crossover:");
-    // for (Chromosome c : chrom){
-    //     for(int i=0; i<listSize; i++){
-    //         System.out.print(c.getAllele(i));
-    //     }
-    //     System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
-    //     System.out.println();
-    // }
     elitism(chrom);
     chromosomes = chrom;
 
 }
 
+public void doublePointCrossover(ArrayList<Chromosome> selectedChrom){
+    ArrayList<Chromosome> chrom = new ArrayList<>();
+    for(int i=0; i<populationSize; i+=2){
+        int firstCut = listSize/3;
+        int secondCut = firstCut*2;
+        Chromosome c1 = selectedChrom.get(i);
+        Chromosome c2 = selectedChrom.get(i+1);
+        int[] child1Array = new int[listSize];
+        int[] child2Array = new int[listSize];
+        for(int j=0; j<listSize; j++){
+            if(j<firstCut || j>= secondCut){
+                child1Array[j] = c1.getAllele(j);
+            }
+            else if(j>=firstCut){
+                child1Array[j] = c2.getAllele(j);
+            }
+        }
 
+        for(int k=0; k<listSize; k++){
+            if(k<firstCut || k>= secondCut){
+                child2Array[k] = c2.getAllele(k);
+            }
+            else if(k>=firstCut){
+                child2Array[k] = c1.getAllele(k);
+            }
+        }
+
+
+        int mutate1 = rand.nextInt(100);
+        int mutate2 = rand.nextInt(100);
+        if(mutate1<=5){
+            mutate(child1Array);
+        }
+        if(mutate2<=5){
+            mutate(child2Array);
+        }
+        chrom.add(new Chromosome(child1Array, subSum(child1Array), kValue));
+        chrom.add(new Chromosome(child2Array, subSum(child2Array), kValue));
+    }
+    elitism(chrom);
+    chromosomes = chrom;
+
+}
 
 
 public ArrayList<Chromosome> getChromosomes(){
@@ -268,6 +299,9 @@ public void bestString(){
     String midOutput = "";
     for(int i=0; i<listSize; i++){
         if(allelles[i]==1){
+            if(midOutput.length()!=0){
+                midOutput+=", ";
+            }
             midOutput += listArray[i];
         }
     }
