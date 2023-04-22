@@ -78,11 +78,9 @@ public ArrayList<Chromosome> rank(){
         rankPerList[i] = ( (populationSize-i) / summedRank);
         sum+=rankPerList[i];
     }
-    // System.out.println("Sum: " + sum);
 
     for(int j=0; j<populationSize; j++){
         double randomNum = rand.nextDouble(1);
-        // System.out.println("RandomNum: " + randomNum);
         for(int k=0; k<populationSize+1; k++){
             if(randomNum<=0){
                 list.add(chromosomes.get(k-1));
@@ -93,17 +91,16 @@ public ArrayList<Chromosome> rank(){
             }
         }
     }
-    for (Chromosome c : list){
-        for(int i=0; i<listSize; i++){
-            System.out.print(c.getAllele(i));
-        }
-        System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
-        System.out.println();
-    }
-    System.out.println();
+    // for (Chromosome c : list){
+    //     for(int i=0; i<listSize; i++){
+    //         System.out.print(c.getAllele(i));
+    //     }
+    //     System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
+    //     System.out.println();
+    // }
+    // System.out.println();
     return list;
 }
-
 
 public ArrayList<Chromosome> tournament(){
     ArrayList<Chromosome> list = new ArrayList();
@@ -131,33 +128,6 @@ public ArrayList<Chromosome> tournament(){
     }
     return list;
 }
-
-
-// public void printRank(){
-//     ArrayList<Chromosome> roulette = rank();
-//     System.out.println("************************************************************");
-//     for (Chromosome c : roulette){
-//         for(int i=0; i<listSize; i++){
-//             System.out.print(c.getAllele(i));
-//         }
-//         System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
-//         System.out.println();
-//     }
-// }
-
-// public void printTournament(){
-//     ArrayList<Chromosome> tournament = tournament();
-//     System.out.println("************************************************************");
-//     for (Chromosome c : tournament){
-//         for(int i=0; i<listSize; i++){
-//             System.out.print(c.getAllele(i));
-//         }
-//         System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
-//         System.out.println();
-//     }
-// }
-
-
 
 public void sortList(ArrayList<Chromosome> chrom){
     int n = chrom.size();
@@ -291,6 +261,16 @@ public void mutate(int[] allelles){
     else{
         allelles[rand2] = 0;
     }
+}
+
+private int[] pairwiseMutate(int[] allelles){
+    int rand1 = rand.nextInt(allelles.length);
+    int rand2 = rand.nextInt(allelles.length);
+    int temp = allelles[rand1];
+
+    allelles[rand1] = allelles[rand2];
+    allelles[rand2] = temp;
+    return allelles;
 }
 
 public void bestString(){

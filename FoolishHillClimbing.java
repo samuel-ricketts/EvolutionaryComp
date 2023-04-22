@@ -1,10 +1,11 @@
 import java.util.Random;
-public class SimulatedAnnealing {
+
+public class FoolishHillClimbing {
     private int[] set;
     private int setSize;
     private int kValue;
     private Random rand = new Random();
-    public SimulatedAnnealing(String list, int k){
+    public FoolishHillClimbing(String list, int k){
         String[] stringArray = list.split(",");
         kValue = k;
         int len = stringArray.length;
@@ -25,13 +26,9 @@ public class SimulatedAnnealing {
         double iterations = 1000;
         while(t>1){
             for (int j=0; j<iterations; j++){
-                int[] newArray = flip(mainChrome);
+                int[] newArray = pairwise(mainChrome);
                 Chromosome newChrome = new Chromosome(newArray, subSum(newArray), kValue);
-                double randomNum = rand.nextDouble(1);
-                double first = mainChrome.getFitness();
-                double second = newChrome.getFitness();
-                double fitnessSub = first - second;
-                if(newChrome.getFitness() < mainChrome.getFitness()  || randomNum < (double) Math.pow(Math.E, (fitnessSub/ t))){
+                if(newChrome.getFitness() < mainChrome.getFitness()){
                     mainChrome = newChrome;
                 }
                 if(mainChrome.getFitness()==0){
@@ -137,6 +134,4 @@ public class SimulatedAnnealing {
         System.out.print(midOutput);
         System.out.println("]");
     }
-    
 }
-
