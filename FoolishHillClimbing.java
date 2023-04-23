@@ -20,6 +20,8 @@ public class FoolishHillClimbing {
 
     public void run(){
         Chromosome mainChrome = createChromosome();
+        System.out.println("Initial Chromosome: ");
+        printChromosome(mainChrome);
         double alpha = .98;
         double beta = 1.02;
         double t = 10.0;

@@ -91,14 +91,6 @@ public ArrayList<Chromosome> rank(){
             }
         }
     }
-    // for (Chromosome c : list){
-    //     for(int i=0; i<listSize; i++){
-    //         System.out.print(c.getAllele(i));
-    //     }
-    //     System.out.print(" "+ "Sum: " + c.getSum() + " " + "Fitness: " + c.getFitness());
-    //     System.out.println();
-    // }
-    // System.out.println();
     return list;
 }
 

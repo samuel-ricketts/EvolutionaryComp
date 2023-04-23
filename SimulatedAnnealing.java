@@ -19,13 +19,15 @@ public class SimulatedAnnealing {
 
     public void run(){
         Chromosome mainChrome = createChromosome();
+        System.out.println("Initial Chromosome: ");
+        printChromosome(mainChrome);
         double alpha = .98;
         double beta = 1.02;
         double t = 10.0;
         double iterations = 1000;
         while(t>1){
             for (int j=0; j<iterations; j++){
-                int[] newArray = flip(mainChrome);
+                int[] newArray = cycleOfThree(mainChrome);
                 Chromosome newChrome = new Chromosome(newArray, subSum(newArray), kValue);
                 double randomNum = rand.nextDouble(1);
                 double first = mainChrome.getFitness();
@@ -44,7 +46,7 @@ public class SimulatedAnnealing {
             t = t * alpha;
             iterations = iterations * beta;
         }
-        System.out.print("\nSolution: ");
+        System.out.println();
         printChromosome(mainChrome);
         bestString(mainChrome);
     }

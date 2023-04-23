@@ -22,6 +22,7 @@ public class test {
             System.out.print("1 for GA, 2 for SimAnnealing, 3 for FoolHillClimb-> ");
             int algorithm = Integer.parseInt(console.nextLine());
             if(algorithm==1){
+                System.out.println("Genetic Algorithm:\n");
                 GeneticAlgorithm GA = new GeneticAlgorithm();
                 startTime = System.nanoTime();
                 GA.run(set, k);
@@ -30,6 +31,7 @@ public class test {
                 System.out.println("Time: " + time);
             }
             else if(algorithm==2){
+                System.out.println("Simulated Annealing\n");
                 SimulatedAnnealing SA = new SimulatedAnnealing(set, k);
                 startTime = System.nanoTime();
                 SA.run();
@@ -38,6 +40,7 @@ public class test {
                 System.out.println("Time: " + time);
             }
             else{
+                System.out.println("Foolish Hill Climbing\n");
                 FoolishHillClimbing FHC = new FoolishHillClimbing(set, k);
                 startTime = System.nanoTime();
                 FHC.run();
